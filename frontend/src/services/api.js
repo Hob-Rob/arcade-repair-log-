@@ -1,7 +1,10 @@
 import axios from 'axios'
 
-// Use the current hostname so it works both on PC (localhost) and phone (192.168.0.12)
-const baseURL = `http://${window.location.hostname}:3002/api`
+// In production, frontend and backend are on the same domain
+// In development, backend is on port 3002
+const baseURL = import.meta.env.PROD
+  ? '/api'
+  : `http://${window.location.hostname}:3002/api`
 
 const api = axios.create({
   baseURL,
