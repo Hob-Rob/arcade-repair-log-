@@ -5,13 +5,19 @@ import { pathToFileURL } from 'url'
 import path from 'path'
 
 const { Pool } = pg
-const pool = new Pool({
-  host:     process.env.DB_HOST || 'localhost',
-  port:     Number(process.env.DB_PORT) || 5432,
-  database: process.env.DB_NAME || 'arcade_repair',
-  user:     process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'changeme',
-})
+
+const pool = process.env.DATABASE_URL
+  ? new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }
+    })
+  : new Pool({
+      host:     process.env.DB_HOST || 'localhost',
+      port:     Number(process.env.DB_PORT) || 5432,
+      database: process.env.DB_NAME || 'arcade_repair',
+      user:     process.env.DB_USER || 'postgres',
+      password: process.env.DB_PASSWORD || 'changeme',
+    })
 
 async function run() {
   const client = await pool.connect()
