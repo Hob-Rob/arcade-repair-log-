@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-// In production, frontend and backend are on the same domain
-// In development, backend is on port 3002
 const baseURL = import.meta.env.PROD
   ? '/api'
   : `http://${window.location.hostname}:3002/api`
@@ -27,8 +25,10 @@ export const machinesApi = {
 
 export const venuesApi = {
   list: () => api.get('/venues').then(r => r.data),
+  create: (data) => api.post('/venues', data).then(r => r.data),
 }
 
 export const techsApi = {
   list: () => api.get('/technicians').then(r => r.data),
+  create: (data) => api.post('/technicians', data).then(r => r.data),
 }
